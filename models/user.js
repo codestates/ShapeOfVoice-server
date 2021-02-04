@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.hasMany(models.voice, {
+        foreignKey: 'userId'
+      })
     }
   };
   user.init({

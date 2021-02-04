@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      voice.belongsToMany(models.board, {
+        through: 'voice_board',
+        foreignKey: 'voiceId'
+      })
+      voice.belongsTo(models.user, {
+        foreignKey: 'userId'
+      })
     }
   };
   voice.init({

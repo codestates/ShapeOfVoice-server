@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      board.belongsToMany(models.voice, {
+        through: 'voice_board',
+        foreignKey: 'boardId'
+      })
     }
   };
   board.init({

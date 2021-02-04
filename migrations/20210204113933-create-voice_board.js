@@ -1,22 +1,22 @@
 'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('voices', {
+    await queryInterface.createTable('voice_board', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      thumbnail: {
-        type: Sequelize.STRING
-      },
-      records: {
-        type: Sequelize.STRING
-      },
-      userId: {
+      voiceId: {
         type: Sequelize.INTEGER,
-        references: { model: 'users', key: 'id' },
+        references: { model: 'voices', key: 'id' },
+        onDelete : 'CASCADE'
+      },
+      boardId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'boards', key: 'id' },
         onDelete : 'CASCADE'
       },
       createdAt: {
@@ -27,9 +27,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('voices');
+    await queryInterface.dropTable('voice_board');
   }
 };
