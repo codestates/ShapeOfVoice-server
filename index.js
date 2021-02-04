@@ -8,7 +8,7 @@ const cert = fs.readFileSync(__dirname + '/cert.pem', 'utf-8');
 const app = express();
 app.use(
   session({
-    secret: '!@#BoardDev#@!',
+    secret: '!@#shapeofvoice#@!',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -30,9 +30,19 @@ app.use(
     credentials: true,
   })
 );
-// 라우터
-// app.use();
-// app.use();
+
+// routes폴더
+const userRouter = require('./routes/user');
+const boardRouter = require('./routes/board');
+const voiceRouter = require('./routes/voice');
+const voice_boardRouter = require('./routes/voice_board');
+
+// 해당 엔드포인트로 요청이 올 경우 routes폴더의 각각의 파일로 보내준다.
+app.use('/user', userRouter);
+app.use('/board', boardRouter);
+app.use('/voice', voiceRouter);
+app.use('/voice_board', voice_boardRouter);
+
 const httpsServer = https.createServer({ key, cert }, app).listen(4000, () => {
   console.log('server on 4000 port');
 });

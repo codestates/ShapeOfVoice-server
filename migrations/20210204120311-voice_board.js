@@ -1,21 +1,23 @@
 'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('boards', {
+    await queryInterface.createTable('voice_board', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      like_count: {
-        allowNull: false,
+      voiceId: {
         type: Sequelize.INTEGER,
-        defalutValue: 0,
+        references: { model: 'voices', key: 'id' },
+        onDelete: 'CASCADE',
+      },
+      boardId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'boards', key: 'id' },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
@@ -27,7 +29,14 @@ module.exports = {
       },
     });
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('boards');
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
+    await queryInterface.dropTable('voice_board');
   },
 };
