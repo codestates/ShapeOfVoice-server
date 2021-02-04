@@ -1,4 +1,6 @@
+const voice_boardCon = require("../controllers/voice_board")
 const express = require('express');
 const router = express.Router();
 
-// const { voice_boardController } = require('../controller/')
+
+router.post('/', voice_boardCon.post);
