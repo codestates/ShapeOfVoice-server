@@ -6,6 +6,7 @@ const cors = require('cors');
 const key = fs.readFileSync(__dirname + '/key.pem', 'utf-8');
 const cert = fs.readFileSync(__dirname + '/cert.pem', 'utf-8');
 const app = express();
+// session 설정
 app.use(
   session({
     secret: '!@#shapeofvoice#@!',
@@ -21,6 +22,7 @@ app.use(
     },
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
