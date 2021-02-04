@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nickname: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
@@ -18,6 +19,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       is_signed_up: {
+        allowNull: false,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
