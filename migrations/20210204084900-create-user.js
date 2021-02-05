@@ -21,7 +21,7 @@ module.exports = {
       is_signed_up: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
-        defalutValue: false,
+        defaultValue: false, //오타 조심
       },
       createdAt: {
         allowNull: false,
@@ -34,7 +34,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    // undo -> users테이블 삭제
     await queryInterface.dropTable('users');
   },
 };

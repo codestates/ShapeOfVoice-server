@@ -15,7 +15,7 @@ module.exports = {
       like_count: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        defalutValue: 0,
+        defaultValue: 0, //오타 조심
       },
       createdAt: {
         allowNull: false,
@@ -28,7 +28,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    // undo -> boards테이블 삭제
     await queryInterface.dropTable('boards');
   },
 };
