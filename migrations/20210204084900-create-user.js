@@ -34,6 +34,7 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
+    // undo -> users 삭제
     await queryInterface.dropTable('users');
   },
 };
