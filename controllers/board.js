@@ -19,7 +19,7 @@ module.exports = {
     },
 
     detail: {
-        
+
         get: function (req,res) {
 
         }
