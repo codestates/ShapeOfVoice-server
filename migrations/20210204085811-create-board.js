@@ -28,7 +28,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    // undo -> boards테이블 삭제
     await queryInterface.dropTable('boards');
   },
 };
