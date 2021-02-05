@@ -40,6 +40,8 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+// console.log(sequlize.models)를 이용해 model들을 볼 수 있다.
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
