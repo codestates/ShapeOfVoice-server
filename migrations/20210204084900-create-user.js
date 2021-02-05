@@ -21,7 +21,7 @@ module.exports = {
       is_signed_up: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
-        defalutValue: false,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
