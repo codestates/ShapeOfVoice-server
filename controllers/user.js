@@ -7,6 +7,7 @@ module.exports = {
       const { email, password, nickname, is_signed_up } = req.body;
 
       // 일반 회원가입 요청이 들어왔을 경우, is_signed_up = true
+      // 확실하게 하기 위해 email, password를 넣어줌
       if (email && password && is_signed_up) {
         //* nickname conflict
         user.findOne({ where: { nickname } }).then((result) => {
