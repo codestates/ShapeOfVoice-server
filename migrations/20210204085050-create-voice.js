@@ -32,6 +32,7 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
+    // undo -> voices 삭제
     await queryInterface.dropTable('voices');
   },
 };
