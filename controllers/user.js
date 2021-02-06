@@ -1,4 +1,4 @@
-const { user } = require('../models');
+const user = require('../models').user;
 
 module.exports = {
   signup: {
@@ -68,7 +68,21 @@ module.exports = {
     },
   },
   login: {
-    post: (req, res) => {},
+    post: (req, res) => {
+      // TODO: 일반유저 로그인, email, password를 req.body로 받고 session.userId를 저장
+      // TODO: 해당 유저의 id를 200응답코드와 함께 response 해준다.
+      // TODO: 요청한 email, password가 맞지 않을 경우 404 응답코드와 함게 message: invalid user를 응답해준다.
+      const { email, password } = req.body;
+      user.findOne({ where: { email, password } }).then((result) => {
+        if (result === null) {
+          res.status(404).send({ message: 'invalid user' });
+        } else {
+          const { id } = result.dataValues;
+          req.session.userId = id;
+          res.status(200).send({ id });
+        }
+      });
+    },
   },
   signout: {
     post: {},
