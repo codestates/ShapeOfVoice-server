@@ -8,10 +8,10 @@ const userCon = require('../controllers/user');
 router.post('/signup', userCon.signup.post);
 
 // login
-// router.post('/login', userCon.login.post);
+router.post('/login', userCon.login.post);
 
 // signout
-// router.post('/signout', usercon.signout.post);
+router.post('/signout', userCon.signout.post);
 
 // userinfo
 // router.get('/', userCon.get);
