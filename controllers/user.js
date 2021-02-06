@@ -69,16 +69,6 @@ module.exports = {
   },
   login: {
     post: (req, res) => {
-      const { email, password } = req.body;
-      user.findOne({ where: { email, password } }).then((result) => {
-        if (result === null) {
-          res.status(404).send({ message: 'invalid user' });
-        } else {
-          const { id } = result.dataValues;
-          req.session.userId = id;
-          res.status(200).send({ id });
-        }
-      });
     },
   },
   signout: {
