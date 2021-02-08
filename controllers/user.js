@@ -126,7 +126,7 @@ module.exports = {
               include: [
                 {
                   model: board,
-                  attributes: ['title', 'createdAt'],
+                  attributes: ['id', 'title', 'createdAt'],
                   through: { attributes: [] },
                 },
               ],
