@@ -91,7 +91,7 @@ module.exports = {
             attributes: ['thumbnail'],
             include: {
               model: board,
-              attributes: ['title', 'createdAt'],
+              attributes: ['id', 'title', 'createdAt'],
               through: { attributes: [] },
             },
           },
