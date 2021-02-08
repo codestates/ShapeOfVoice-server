@@ -11,43 +11,23 @@ module.exports = {
     post: (req, res) => {},
   },
   voicelist: {
-    get: async (req, res) => {
-      // TODO: mypage에서 보여지는 정보를 찾아야 한다.(Thumbnail, Board Title, Board created At, nickname, e-mail)
-      // TODO: user <-> voice <-> voice_board <-> board
-      // TODO: ni,em    userId    voID, boId      id
-      const { userId } = req.session; // 9
-
-      // 유저의 Thumbnail, Board Title, Board created At, nickname, e-mail 찾기
-      user
-        .findOne({
-          attributes: ['nickname', 'email'],
-          where: { id: userId },
-          include: [
-            {
-              model: voice,
-              attributes: ['thumbnail'],
-              include: [
-                {
-                  model: board,
-                  attributes: ['title', 'createdAt'],
-                  through: { attributes: [] },
-                },
-              ],
-            },
-          ],
-        })
-        .then((result) => {
-          // const data = {};
-          // data.nickname = result.nickname;
-          // data.email = result.email;
-          // data.thumbnail = result.voices.map((el) => el.thumbnail);
-          // data.boards = result.voices.map((el) => el.boards).flat(2);
-          res.status(200).send({ data: result });
-        })
-        .catch((err) => {
-          res.send(err);
-        });
-    },
+    get: async (req, res) => {},
   },
-  get: {},
+  get: (req, res) => {
+    // TODO: client에서 렌더 되기 전에 호출을 당해 해당 유저의 정보를 넘겨준다.
+    // TODO: 일반 유저, 비회원 유저 상관없이 session이 있을 경우 정보를 넘겨준다.
+    // TODO: 해당 user의 sessionId가 있으면 로직 수행
+    // TODO: id, nickname, email, is_signed_up 넘겨주기
+    const { userId } = req.session;
+    // session이 있을 경우
+    if (userId) {
+      user.findOne({ where: { id: userId } }).then((userInfo) => {
+        const { id, nickname, email, is_signed_up } = userInfo.dataValues;
+        res.status(200).send({ id, nickname, email, is_signed_up });
+      });
+    } else {
+      // session이 없는 경우
+      res.status(401).send({ message: 'unauthorized' });
+    }
+  },
 };
