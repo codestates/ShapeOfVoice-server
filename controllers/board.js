@@ -1,13 +1,9 @@
 const { Sequelize } = require('../models');
-const Board = require('../models').board;
-const User = require('../models').user;
-const Voice = require('../models').voice;
+const { board, user, voice } = require('../models');
 
 module.exports = {
   post: function (req, res) {
-    Board.create({ title: req.body.title }).then((board) => {
-      console.log(board);
-      console.log(board.id);
+    board.create({ title: req.body.title }).then((board) => {
       res.send({ id: board.id });
     });
   },
@@ -23,12 +19,11 @@ module.exports = {
     // title을 바꾸길 원하는 user의 sessionId 가 있으면 로직 수행
     if (userId) {
       // board table의 userId = sessionId, id = req.body.id(해당 게시물 번호)
-      Board.update(
-        { title, updatedAt: Sequelize.DATE },
-        { where: { userId, id } }
-      ).then(() => {
-        res.send({ message: 'update success' });
-      });
+      board
+        .update({ title, updatedAt: Sequelize.DATE }, { where: { userId, id } })
+        .then(() => {
+          res.send({ message: 'update success' });
+        });
     }
   },
 
@@ -43,20 +38,21 @@ module.exports = {
       // TODO: 게시판의 전체 목록을 보여준다.
       // user table = nickname, voice table = thumbnail, board table = title, createdAt
       // 게시판의 전체 목록을
-      User.findAll({
-        attributes: ['nickname'],
-        include: [
-          {
-            model: Voice,
-            attributes: ['thumbnail'],
-            include: {
-              model: Board,
-              attributes: ['title', 'createdAt'],
-              through: { attributes: [] },
+      user
+        .findAll({
+          attributes: ['nickname'],
+          include: [
+            {
+              model: voice,
+              attributes: ['thumbnail'],
+              include: {
+                model: board,
+                attributes: ['id', 'title', 'createdAt'],
+                through: { attributes: [] },
+              },
             },
-          },
-        ],
-      })
+          ],
+        })
         .then((result) => {
           res.status(200).send(result);
         })
