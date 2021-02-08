@@ -47,5 +47,3 @@ db.Sequelize = Sequelize;
 
 db.models = sequelize.models;
 module.exports = db;
-// module.exports = { models: sequelize.models };
-
