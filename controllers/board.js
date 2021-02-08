@@ -34,13 +34,21 @@ module.exports = {
   },
 
   delete: function (req, res) {
-    voice_board.findOne({
-      where : {boardId : req.body.id}
-    }).then(voice_board => {
-      voice.destroy({where: {id : voice_board.voiceId}})
-      board.destroy({where: {id: req.body.id}})
-    }).then(()=>res.send())
-    .catch(err => res.send(err))
+    board.findOnd({
+      where : {id : req.body.id}
+    }).then(board =>{
+      if (board.userId !== req.session.userId){
+        res.status(404).send({message: "invalid user"})
+      }
+    }).then(()=>{
+      voice_board.findOne({
+        where : {boardId : req.body.id}
+      }).then(voice_board => {
+        voice.destroy({where: {id : voice_board.voiceId}})
+        board.destroy({where: {id: req.body.id}})
+      }).then(()=>res.send())
+      .catch(err => res.send(err))
+    })
   },
 
   detail: {
