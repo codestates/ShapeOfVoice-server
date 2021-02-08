@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       user.hasMany(models.voice, {
         foreignKey: 'userId',
       });
+      user.hasMany(models.board, {
+        foreignKey: 'userId'
+      })
     }
   }
   user.init(
