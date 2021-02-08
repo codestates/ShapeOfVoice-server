@@ -1,5 +1,4 @@
 const { user, board, voice } = require('../models').models;
-const user = require('../models').user;
 
 module.exports = {
   signup: {
@@ -164,4 +163,17 @@ module.exports = {
       res.status(401).send({ message: 'unauthorized' });
     }
   },
+
+  put: (req, res) => {
+    user.findOne({
+      where : {nickname: req.body.nickname}
+    }).then(result => {
+      if (!result){
+        user.update({nickname: req.body.nickname}, {where : {id: req.session.userId}})
+        .then(() => res.send({ message: "change success" }))
+      } else {
+        res.status(404).send()
+      }
+    }).catch(err => res.send(err))
+  }
 };
