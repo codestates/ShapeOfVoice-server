@@ -5,7 +5,7 @@ module.exports = {
   post: function (req, res) {
     board.create({
       title: req.body.title,
-      userId: req.body.userId
+      userId: req.session.userId
     }).then((board) => {
       console.log(board);
       console.log(board.id);
