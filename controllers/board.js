@@ -33,6 +33,7 @@ module.exports = {
     }
   },
 
+
   delete: function (req, res) {
     board.findOnd({
       where : {id : req.body.id}
@@ -71,7 +72,7 @@ module.exports = {
       })
       .then(result => {
         console.log(result)
-        res.send({data: result})
+        res.send({result: result})
       })
       .catch(err => res.send(err))
     },
