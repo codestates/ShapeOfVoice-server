@@ -45,6 +45,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// db객체에 models(key), sequelize.models(value)를 추가
 db.models = sequelize.models;
 module.exports = db;
+// module.exports = { models: sequelize.models };
+
