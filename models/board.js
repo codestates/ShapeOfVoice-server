@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       board.belongsToMany(models.voice, {
         through: 'voice_board',
       });
+      board.belongsTo(models.user)
     }
   }
   board.init(
