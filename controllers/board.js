@@ -1,5 +1,4 @@
-const { Sequelize } = require('../models');
-const { board, user, voice, voice_board } = require ('../models')
+const { board, user, voice, voice_board, Sequelize } = require ('../models')
 
 module.exports = {
   post: function (req, res) {
