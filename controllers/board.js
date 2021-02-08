@@ -63,7 +63,7 @@ module.exports = {
       })
       .then(result => {
         console.log(result)
-        res.send({data: result})
+        res.send({result: result})
       })
       .catch(err => res.send(err))
     },
