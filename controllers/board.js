@@ -1,11 +1,12 @@
 const { Sequelize } = require('../models');
-const Board = require('../models').board;
-const User = require('../models').user;
-const Voice = require('../models').voice;
+const { board, user, voice, voice_board } = require ('../models')
 
 module.exports = {
   post: function (req, res) {
-    Board.create({ title: req.body.title }).then((board) => {
+    board.create({
+      title: req.body.title,
+      userId: req.body.userId
+    }).then((board) => {
       console.log(board);
       console.log(board.id);
       res.send({ id: board.id });
@@ -23,7 +24,7 @@ module.exports = {
     // title을 바꾸길 원하는 user의 sessionId 가 있으면 로직 수행
     if (userId) {
       // board table의 userId = sessionId, id = req.body.id(해당 게시물 번호)
-      Board.update(
+      board.update(
         { title, updatedAt: Sequelize.DATE },
         { where: { userId, id } }
       ).then(() => {
@@ -32,10 +33,40 @@ module.exports = {
     }
   },
 
-  delete: function (req, res) {},
+  // delete: function (req, res) {
+  //   voice_board.findOne({
+  //     where : {boardId : req.body.id}
+  //   }).then(voice_board => {
+  //     voice.destroy({where: {id : voice_board.voiceId}})
+  //     board.destroy({where: {id: req.body.id}})
+  //   }).then(()=>res.send())
+  //   .catch(err => res.send(err))
+  // },
 
   detail: {
-    get: function (req, res) {},
+    post: function (req, res) {
+      console.log(req.body.id)
+      board.findOne({
+        attributes: ['title', 'like_count', 'createdAt'],
+        where: {id: req.body.id},
+        include: [
+          {
+            model: user,
+            attributes: ['nickname']
+          },
+          {
+            model: voice,
+            attributes: ['records'],
+            through: { attributes: [] }
+          }
+        ]
+      })
+      .then(result => {
+        console.log(result)
+        res.send({data: result})
+      })
+      .catch(err => res.send(err))
+    },
   },
 
   list: {
@@ -43,14 +74,14 @@ module.exports = {
       // TODO: 게시판의 전체 목록을 보여준다.
       // user table = nickname, voice table = thumbnail, board table = title, createdAt
       // 게시판의 전체 목록을
-      User.findAll({
+      user.findAll({
         attributes: ['nickname'],
         include: [
           {
-            model: Voice,
+            model: voice,
             attributes: ['thumbnail'],
             include: {
-              model: Board,
+              model: board,
               attributes: ['title', 'createdAt'],
               through: { attributes: [] },
             },
