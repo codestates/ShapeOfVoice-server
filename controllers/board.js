@@ -1,5 +1,7 @@
 const { Sequelize } = require('../models');
 const Board = require('../models').board;
+const User = require('../models').user;
+const Voice = require('../models').voice;
 
 module.exports = {
   post: function (req, res) {
@@ -37,6 +39,30 @@ module.exports = {
   },
 
   list: {
-    get: function (req, res) {},
+    get: function (req, res) {
+      // TODO: 게시판의 전체 목록을 보여준다.
+      // user table = nickname, voice table = thumbnail, board table = title, createdAt
+      // 게시판의 전체 목록을
+      User.findAll({
+        attributes: ['nickname'],
+        include: [
+          {
+            model: Voice,
+            attributes: ['thumbnail'],
+            include: {
+              model: Board,
+              attributes: ['title', 'createdAt'],
+              through: { attributes: [] },
+            },
+          },
+        ],
+      })
+        .then((result) => {
+          res.status(200).send(result);
+        })
+        .catch((err) => {
+          res.send(err);
+        });
+    },
   },
 };

@@ -13,10 +13,10 @@ router.post('/login', userCon.login.post);
 // signout
 router.post('/signout', userCon.signout.post);
 
+// voicelist
+router.get('/voicelist', userCon.voicelist.get);
+
 // userinfo
 // router.get('/', userCon.get);
-
-// voicelist
-// router.get('/voicelist', userCon.voicelist.get);
 
 module.exports = router;
