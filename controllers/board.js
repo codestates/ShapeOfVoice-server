@@ -27,10 +27,54 @@ module.exports = {
     }
   },
 
-  delete: function (req, res) {},
+  delete: function (req, res) {
+    board
+      .findOnd({
+        where: { id: req.body.id },
+      })
+      .then((board) => {
+        if (board.userId !== req.session.userId) {
+          res.status(404).send({ message: 'invalid user' });
+        }
+      })
+      .then(() => {
+        voice_board
+          .findOne({
+            where: { boardId: req.body.id },
+          })
+          .then((voice_board) => {
+            voice.destroy({ where: { id: voice_board.voiceId } });
+            board.destroy({ where: { id: req.body.id } });
+          })
+          .then(() => res.send())
+          .catch((err) => res.send(err));
+      });
+  },
 
   detail: {
-    get: function (req, res) {},
+    post: function (req, res) {
+      console.log(req.body.id);
+      board
+        .findOne({
+          attributes: ['title', 'like_count', 'createdAt'],
+          where: { id: req.body.id },
+          include: [
+            {
+              model: user,
+              attributes: ['nickname'],
+            },
+            {
+              model: voice,
+              attributes: ['records'],
+              through: { attributes: [] },
+            },
+          ],
+        })
+        .then((result) => {
+          res.send({ result: result });
+        })
+        .catch((err) => res.send(err));
+    },
   },
 
   list: {
@@ -47,7 +91,7 @@ module.exports = {
               attributes: ['thumbnail'],
               include: {
                 model: board,
-                attributes: ['id', 'title', 'createdAt'],
+                attributes: ['title', 'createdAt'],
                 through: { attributes: [] },
               },
             },
