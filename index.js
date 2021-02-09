@@ -10,7 +10,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      domain: 'localhost',
+      domain: 'shape-of-voice.s3-website.ap-northeast-2.amazonaws.com',
       path: '/',
       maxAge: 24 * 6 * 60 * 10000,
       httpOnly: true,
