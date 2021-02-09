@@ -41,6 +41,11 @@ app.use('/board', boardRouter);
 app.use('/voice', voiceRouter);
 app.use('/voice_board', voice_boardRouter);
 
+app.get('/', (req, res) => {
+  res.send('서버는 잘 실행이 됩니까 ????? ');
+});
+
+
 const httpServer = http.createServer(app).listen(4000, () => {
   console.log('server on 4000 port');
 });
