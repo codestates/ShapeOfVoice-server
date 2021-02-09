@@ -23,5 +23,12 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     dialect: 'mysql',
     timezone: '+09:00',
+    pool: {
+      max: 15,
+      min: 5,
+      idle: 20000,
+      evict: 15000,
+      acquire: 30000
+    },
   },
 };
