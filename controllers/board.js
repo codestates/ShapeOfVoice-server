@@ -1,5 +1,5 @@
 const { Sequelize } = require('../models');
-const { board, user, voice } = require('../models');
+const { board, user, voice, voice_board } = require('../models');
 
 module.exports = {
   post: function (req, res) {
@@ -28,11 +28,15 @@ module.exports = {
   },
 
   delete: function (req, res) {
+    console.log('ffff', req.body);
     board
-      .findOnd({
+      .findOne({
         where: { id: req.body.id },
       })
       .then((board) => {
+        // console.log(board);
+        // console.log('0-000000');
+        // console.log(req.session);
         if (board.userId !== req.session.userId) {
           res.status(404).send({ message: 'invalid user' });
         }
@@ -71,7 +75,7 @@ module.exports = {
           ],
         })
         .then((result) => {
-          res.send({ result: result });
+          res.send({ result });
         })
         .catch((err) => res.send(err));
     },
@@ -91,14 +95,14 @@ module.exports = {
               attributes: ['thumbnail'],
               include: {
                 model: board,
-                attributes: ['title', 'createdAt'],
+                attributes: ['id', 'title', 'createdAt'],
                 through: { attributes: [] },
               },
             },
           ],
         })
         .then((result) => {
-          res.status(200).send(result);
+          res.status(200).send({ result });
         })
         .catch((err) => {
           res.send(err);

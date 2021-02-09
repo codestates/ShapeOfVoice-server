@@ -4,7 +4,7 @@ module.exports = {
   development: {
     username: 'root',
     password: process.env.DATABASE_PASSWORD,
-    database: 'shape_of_voice_copy',
+    database: 'shape_of_voice',
     host: '127.0.0.1',
     dialect: 'mysql',
   },

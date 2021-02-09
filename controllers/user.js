@@ -76,9 +76,9 @@ module.exports = {
         if (result === null) {
           res.status(404).send({ message: 'invalid user' });
         } else {
-          const { id } = result.dataValues;
+          const { id, nickname } = result.dataValues;
           req.session.userId = id;
-          res.status(200).send({ id });
+          res.status(200).send({ id, nickname });
         }
       });
     },
@@ -133,12 +133,7 @@ module.exports = {
           ],
         })
         .then((result) => {
-          // const data = {};
-          // data.nickname = result.nickname;
-          // data.email = result.email;
-          // data.thumbnail = result.voices.map((el) => el.thumbnail);
-          // data.boards = result.voices.map((el) => el.boards).flat(2);
-          res.status(200).send({ data: result });
+          res.status(200).send({ result });
         })
         .catch((err) => {
           res.send(err);
@@ -164,15 +159,22 @@ module.exports = {
   },
 
   put: (req, res) => {
-    user.findOne({
-      where : {nickname: req.body.nickname}
-    }).then(result => {
-      if (!result){
-        user.update({nickname: req.body.nickname}, {where : {id: req.session.userId}})
-        .then(() => res.send({ message: "change success" }))
-      } else {
-        res.status(404).send()
-      }
-    }).catch(err => res.send(err))
-  }
+    user
+      .findOne({
+        where: { nickname: req.body.nickname },
+      })
+      .then((result) => {
+        if (!result) {
+          user
+            .update(
+              { nickname: req.body.nickname },
+              { where: { id: req.session.userId } }
+            )
+            .then(() => res.send({ message: 'change success' }));
+        } else {
+          res.status(404).send();
+        }
+      })
+      .catch((err) => res.send(err));
+  },
 };

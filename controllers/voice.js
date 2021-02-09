@@ -2,6 +2,7 @@ const { voice } = require('../models');
 
 module.exports = {
   post: function (req, res) {
+    console.log('aa');
     voice
       .create({
         thumbnail: req.body.thumbnail,
