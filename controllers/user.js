@@ -1,4 +1,4 @@
-const { user, board, voice } = require('../models').models;
+const { user, board, voice, Sequelize } = require('../models').models;
 
 module.exports = {
   signup: {
@@ -167,7 +167,7 @@ module.exports = {
         if (!result) {
           user
             .update(
-              { nickname: req.body.nickname },
+              { nickname: req.body.nickname, updatedAt: Sequelize.DATE },
               { where: { id: req.session.userId } }
             )
             .then(() => res.send({ message: 'change success' }));

@@ -1,11 +1,15 @@
-const { Sequelize } = require('../models');
-const { board, user, voice, voice_board } = require('../models');
+const { board, user, voice, voice_board, Sequelize } = require('../models');
 
 module.exports = {
   post: function (req, res) {
-    board.create({ title: req.body.title }).then((board) => {
-      res.send({ id: board.id });
-    });
+    board
+      .create({
+        title: req.body.title,
+        userId: req.session.userId,
+      })
+      .then((board) => {
+        res.send({ id: board.id });
+      });
   },
 
   patch: function (req, res) {

@@ -7,6 +7,7 @@ module.exports = {
     database: 'shape_of_voice',
     host: '127.0.0.1',
     dialect: 'mysql',
+    timezone: '+09:00',
   },
   test: {
     username: 'root',
