@@ -11,8 +11,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 24 * 6 * 60 * 10000,
-      httpOnly: true,
-      secure: false,
+      secure: true,
       SameSite: 'none'
     },
   })
@@ -21,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: 'http://shape-of-voice.s3-website.ap-northeast-2.amazonaws.com',
+    origin: ['https://shapeofvoice.cf', 'http://shapeofvoice.cf'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
   })
@@ -38,11 +37,6 @@ app.use('/user', userRouter);
 app.use('/board', boardRouter);
 app.use('/voice', voiceRouter);
 app.use('/voice_board', voice_boardRouter);
-
-app.get('/', (req, res) => {
-  res.send('서버는 잘 실행이 됩니까 ????? ');
-});
-
 
 const httpServer = http.createServer(app).listen(4000, () => {
   console.log('server on 4000 port');
