@@ -5,13 +5,6 @@ const session = require('express-session');
 const cors = require('cors');
 const app = express();
 
-app.use(function(req, res, next) {
-	var xForwarded = req.get('X-Forwarded-Proto');
-	if(xForwarded !== 'https') {
-    	res.redirect('https://' + req.get('Host') + req.url);
-	}
-});
-
 app.use(
   session({
     secret: '!@#shapeofvoice#@!',
