@@ -38,6 +38,13 @@ app.use('/board', boardRouter);
 app.use('/voice', voiceRouter);
 app.use('/voice_board', voice_boardRouter);
 
+app.use(function(req, res, next) {
+	var xForwarded = req.get('X-Forwarded-Proto');
+	if(xForwarded !== 'https') {
+    	res.redirect('https://' + req.get('Host') + req.url);
+	}
+});
+
 const httpServer = http.createServer(app).listen(4000, () => {
   console.log('server on 4000 port');
 });
