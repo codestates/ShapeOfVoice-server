@@ -1,4 +1,4 @@
-const { board, user, voice, voice_board, Sequelize } = require('../models');
+const { board, user, voice, voice_board } = require('../models');
 
 module.exports = {
   post: function (req, res) {
@@ -24,7 +24,7 @@ module.exports = {
     if (userId) {
       // board table의 userId = sessionId, id = req.body.id(해당 게시물 번호)
       board
-        .update({ title, updatedAt: Sequelize.DATE }, { where: { userId, id } })
+        .update({ title }, { where: { userId, id } })
         .then(() => {
           res.send({ message: 'update success' });
         });
