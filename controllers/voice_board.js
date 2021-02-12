@@ -1,13 +1,14 @@
-const { models } = require('../models');
-const Voice_Board = models.voice_board;
+const { voice_board } = require('../models');
 
 module.exports = {
   post: function (req, res) {
-    Voice_Board.create({
-      boardId: req.body.boardId,
-      voiceId: req.body.voiceId,
-    }).then((voice_board) => {
-      res.send({ id: voice_board.id });
-    });
+    voice_board
+      .create({
+        boardId: req.body.boardId,
+        voiceId: req.body.voiceId,
+      })
+      .then((voice_board) => {
+        res.status(200).send({ id: voice_board.id });
+      });
   },
 };
