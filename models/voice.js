@@ -14,8 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   voice.init(
     {
-      thumbnail: DataTypes.STRING,
-      records: DataTypes.STRING,
+      thumbnail: DataTypes.TEXT('long'),
       userId: DataTypes.INTEGER,
     },
     {
