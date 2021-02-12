@@ -39,7 +39,7 @@ app.use('/board', boardRouter);
 app.use('/voice', voiceRouter);
 app.use('/voice_board', voice_boardRouter);
 
-const httpServer = https.createServer(app).listen(4000, () => {
+const httpsServer = https.createServer(app).listen(4000, () => {
   console.log('server on 4000 port');
 });
 module.exports = httpsServer;
