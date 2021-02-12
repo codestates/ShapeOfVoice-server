@@ -1,8 +1,8 @@
-const { user, board, voice, Sequelize} = require('../models').models;
+const { user, board, voice, Sequelize } = require('../models').models;
 
 module.exports = {
   signup: {
-     post: (req, res) => {
+    post: (req, res) => {
       // TODO: client에서 넘어온 정보(email, password)를 가지고 DB에 저장한다.
       const { email, password, nickname, is_signed_up } = req.body;
 
@@ -96,7 +96,6 @@ module.exports = {
     },
   },
   signout: {
-
     post: (req, res) => {
       // TODO: client에서 넘어온 sessionId를 가지고 DB에서 유저 검색
       // TODO: 찾은 user의 is_signed_up의 값이 true이면 일반 유저, false면 비회원 로그인
@@ -128,7 +127,7 @@ module.exports = {
 
       // 유저의 Thumbnail, Board Title, Board created At, nickname, e-mail 찾기
       user
-        .findOne({
+        .findAll({
           attributes: ['nickname', 'email'],
           where: { id: userId },
           include: [
@@ -146,12 +145,7 @@ module.exports = {
           ],
         })
         .then((result) => {
-          // const data = {};
-          // data.nickname = result.nickname;
-          // data.email = result.email;
-          // data.thumbnail = result.voices.map((el) => el.thumbnail);
-          // data.boards = result.voices.map((el) => el.boards).flat(2);
-          res.status(200).send({ data: result });
+          res.status(200).send({ result });
         })
         .catch((err) => {
           res.send(err);
@@ -163,7 +157,7 @@ module.exports = {
     // TODO: 일반 유저, 비회원 유저 상관없이 session이 있을 경우 정보를 넘겨준다.
     // TODO: 해당 user의 sessionId가 있으면 로직 수행
     // TODO: id, nickname, email, is_signed_up 넘겨주기
-    const { userId } = req.session;
+    const { userId } = req.session.userId;
     // session이 있을 경우
     if (userId) {
       user.findOne({ where: { id: userId } }).then((userInfo) => {
@@ -177,15 +171,22 @@ module.exports = {
   },
 
   put: (req, res) => {
-    user.findOne({
-      where : {nickname: req.body.nickname}
-    }).then(result => {
-      if (!result){
-        user.update({nickname: req.body.nickname, updatedAt: Sequelize.DATE }, {where : {id: req.session.userId}})
-        .then(() => res.send({ message: "change success" }))
-      } else {
-        res.status(404).send()
-      }
-    }).catch(err => res.send(err))
-  }
+    user
+      .findOne({
+        where: { nickname: req.body.nickname },
+      })
+      .then((result) => {
+        if (!result) {
+          user
+            .update(
+              { nickname: req.body.nickname, updatedAt: Sequelize.DATE },
+              { where: { id: req.session.userId } }
+            )
+            .then(() => res.send({ message: 'change success' }));
+        } else {
+          res.status(404).send();
+        }
+      })
+      .catch((err) => res.send(err));
+  },
 };
