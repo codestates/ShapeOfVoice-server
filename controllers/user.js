@@ -179,7 +179,7 @@ module.exports = {
         if (!result) {
           user
             .update(
-              { nickname: req.body.nickname, updatedAt: Sequelize.DATE },
+              { nickname: req.body.nickname },
               { where: { id: req.session.userId } }
             )
             .then(() => res.send({ message: 'change success' }));
