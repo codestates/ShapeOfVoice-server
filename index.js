@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-const http = require('http');
+const http = require('https');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
@@ -39,7 +39,7 @@ app.use('/board', boardRouter);
 app.use('/voice', voiceRouter);
 app.use('/voice_board', voice_boardRouter);
 
-const httpServer = http.createServer(app).listen(4000, () => {
+const httpServer = https.createServer(app).listen(4000, () => {
   console.log('server on 4000 port');
 });
-module.exports = httpServer;
+module.exports = httpsServer;
