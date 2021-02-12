@@ -10,11 +10,7 @@ module.exports = {
       },
       thumbnail: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      records: {
-        allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT('long'),
       },
       userId: {
         type: Sequelize.INTEGER,
