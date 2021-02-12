@@ -1,4 +1,4 @@
-const { user, board, voice, Sequelize } = require('../models').models;
+const { user, board, voice } = require('../models').models;
 
 module.exports = {
   signup: {
@@ -157,6 +157,7 @@ module.exports = {
     // TODO: 일반 유저, 비회원 유저 상관없이 session이 있을 경우 정보를 넘겨준다.
     // TODO: 해당 user의 sessionId가 있으면 로직 수행
     // TODO: id, nickname, email, is_signed_up 넘겨주기
+    const { userId } = req.session.userId;
     // session이 있을 경우
     if (userId) {
       user.findOne({ where: { id: userId } }).then((userInfo) => {
@@ -170,6 +171,7 @@ module.exports = {
   },
 
   put: (req, res) => {
+    // user에 중복된 이름이 있는지 없는지 찾는다.
     user
       .findOne({
         where: { nickname: req.body.nickname },
@@ -178,7 +180,7 @@ module.exports = {
         if (!result) {
           user
             .update(
-              { nickname: req.body.nickname, updatedAt: Sequelize.DATE },
+              { nickname: req.body.nickname },
               { where: { id: req.session.userId } }
             )
             .then(() => res.send({ message: 'change success' }));

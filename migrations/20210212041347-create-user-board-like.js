@@ -1,21 +1,26 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('voices', {
+    await queryInterface.createTable('user_board_likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      thumbnail: {
-        allowNull: false,
-        type: Sequelize.TEXT('long'),
-      },
       userId: {
         type: Sequelize.INTEGER,
         references: { model: 'users', key: 'id' },
         onDelete: 'CASCADE',
+      },
+      boardId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'boards', key: 'id' },
+        onDelete: 'CASCADE',
+      },
+      is_like: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -28,7 +33,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    // undo -> voices 삭제
-    await queryInterface.dropTable('voices');
+    await queryInterface.dropTable('user_board_likes');
   },
 };
