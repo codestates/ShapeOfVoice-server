@@ -17,10 +17,15 @@ module.exports = {
     dialect: 'mysql',
   },
   production: {
-    username: 'root',
-    password: null,
-    database: 'database_production',
-    host: '127.0.0.1',
+    username: 'cloud_ascending',
+    password: process.env.SHAPE_OF_VOICE,
+    database: 'shape_of_voice',
+    port: 9999,
+    host: 'shape-of-voice.c7wh8zjlh1p9.us-east-2.rds.amazonaws.com',
     dialect: 'mysql',
+    pool: {
+      max: 15,
+      min: 5,
+    },
   },
 };

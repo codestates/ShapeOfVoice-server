@@ -1,3 +1,5 @@
+const voice = require('./controllers/voice');
+
 function SHA256(s) {
   var chrsz = 8;
 

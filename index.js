@@ -1,17 +1,15 @@
 const express = require('express');
-const fs = require('fs');
 const http = require('http');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
+
 app.use(
   session({
     secret: '!@#shapeofvoice#@!',
     resave: false,
     saveUninitialized: false,
     cookie: {
-      domain: 'localhost',
-      path: '/',
       maxAge: 24 * 6 * 60 * 10000,
       httpOnly: true,
       secure: false,

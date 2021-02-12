@@ -71,16 +71,28 @@ module.exports = {
       // TODO: 일반유저 로그인, email, password를 req.body로 받고 session.userId를 저장
       // TODO: 해당 유저의 id를 200응답코드와 함께 response 해준다.
       // TODO: 요청한 email, password가 맞지 않을 경우 404 응답코드와 함게 message: invalid user를 응답해준다.
-      const { email, password } = req.body;
-      user.findOne({ where: { email, password } }).then((result) => {
-        if (result === null) {
-          res.status(404).send({ message: 'invalid user' });
-        } else {
-          const { id, nickname } = result.dataValues;
-          req.session.userId = id;
-          res.status(200).send({ id, nickname });
-        }
-      });
+      const { email, password, nickname } = req.body;
+      if (email && password) {
+        user.findOne({ where: { email, password } }).then((result) => {
+          if (result === null) {
+            res.status(404).send({ message: 'invalid user' });
+          } else {
+            const { id, nickname } = result.dataValues;
+            req.session.userId = id;
+            res.status(200).send({ id, nickname });
+          }
+        });
+      } else {
+        user.findOne({ where: { nickname } }).then((result) => {
+          if (result === null) {
+            res.status(404).send({ message: 'invalid user' });
+          } else {
+            const { id, nickname } = result.dataValues;
+            req.session.userId = id;
+            res.status(200).send({ id, nickname });
+          }
+        });
+      }
     },
   },
   signout: {
@@ -145,7 +157,6 @@ module.exports = {
     // TODO: 일반 유저, 비회원 유저 상관없이 session이 있을 경우 정보를 넘겨준다.
     // TODO: 해당 user의 sessionId가 있으면 로직 수행
     // TODO: id, nickname, email, is_signed_up 넘겨주기
-    const { userId } = req.session;
     // session이 있을 경우
     if (userId) {
       user.findOne({ where: { id: userId } }).then((userInfo) => {
