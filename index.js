@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const http = require('http');
@@ -7,7 +8,7 @@ const app = express();
 
 app.use(
   session({
-    secret: '!@#shapeofvoice#@!',
+    secret: process.env.SHAPE_OF_VOICE,
     resave: false,
     saveUninitialized: false,
     cookie: {
