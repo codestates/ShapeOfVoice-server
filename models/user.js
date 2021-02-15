@@ -1,4 +1,5 @@
 'use strict';
+// user Model
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
@@ -12,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
       });
       user.hasMany(models.board, {
-        foreignKey: 'userId'
-      })
+        foreignKey: 'userId',
+      });
     }
   }
   user.init(

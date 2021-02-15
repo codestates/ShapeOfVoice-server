@@ -3,8 +3,7 @@ const router = express.Router();
 const boardCon = require('../controllers/board');
 
 router.post('/', boardCon.post);
-router.put('/incrementLikeCount', boardCon.incrementLikeCount.put);
-router.put('/decrementLikeCount', boardCon.decrementLikeCount.put);
+router.put('/likeCount', boardCon.likeCount.put);
 router.patch('/', boardCon.patch);
 router.delete('/', boardCon.delete);
 router.post('/detail', boardCon.detail.post);

@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = 'production'
+const env = 'production';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
@@ -39,8 +39,6 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-
-// console.log(sequlize.models)를 이용해 model들을 볼 수 있다.
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

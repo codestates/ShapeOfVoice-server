@@ -1,4 +1,6 @@
 'use strict';
+// board Model
+
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class board extends Model {

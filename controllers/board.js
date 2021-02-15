@@ -1,4 +1,10 @@
-const { board, user, voice, voice_board, Sequelize } = require('../models');
+const {
+  board,
+  user,
+  voice,
+  voice_board,
+  user_board_like,
+} = require('../models');
 
 module.exports = {
   post: function (req, res) {
@@ -29,37 +35,38 @@ module.exports = {
     }
   },
 
-  incrementLikeCount: {
-    put: function (req, res) {
-      // client에서 board의 id를 받아온다.
+  likeCount: {
+    put: async function (req, res) {
       const { id } = req.body;
-      // 기존 likecount에서 1씩 증가
-      // 받아온 id로 board테이블에서 글을 조회
-      board
-        .findOne({ where: { id } })
-        .then((result) => {
-          return result.increment('like_count', { by: 1 });
-        })
-        .then(() => {
-          res.status(201).send({ message: 'Increase complete' });
-        });
-    },
-  },
 
-  decrementLikeCount: {
-    put: function (req, res) {
-      // 기존 likecount에서 1씩 감소
-      const { id } = req.body;
-      // 기존 likecount에서 1씩 증가
-      // 받아온 id로 board테이블에서 글을 조회
-      board
-        .findOne({ where: { id } })
-        .then((result) => {
-          return result.decrement('like_count', { by: 1 });
-        })
-        .then(() => {
-          res.status(201).send({ message: 'Decrease complete' });
+      const [result, created] = await user_board_like.findOrCreate({
+        where: { boardId: id, userId: req.session.userId },
+        defaults: { boardId: id, userId: req.session.userId },
+      });
+
+      if (created) {
+        board.findOne({ where: { id } }).then((result) => {
+          const { like_count } = result.dataValues;
+          result.increment('like_count', { by: 1 });
+          res.status(201).send({
+            data: { id: result.dataValues.id, like_count: like_count + 1 },
+            message: 'Increase complete',
+          });
         });
+      } else {
+        board.findOne({ where: { id } }).then((result) => {
+          const { like_count } = result.dataValues;
+          result.decrement('like_count', { by: 1 });
+
+          user_board_like.destroy({
+            where: { boardId: id, userId: req.session.userId },
+          });
+
+          res.status(201).send({
+            data: { like_count: like_count - 1 },
+          });
+        });
+      }
     },
   },
 
@@ -126,7 +133,7 @@ module.exports = {
               attributes: ['thumbnail'],
               include: {
                 model: board,
-                attributes: ['id', 'title', 'createdAt'],
+                attributes: ['id', 'like_count', 'title', 'createdAt'],
                 through: { attributes: [] },
               },
             },
