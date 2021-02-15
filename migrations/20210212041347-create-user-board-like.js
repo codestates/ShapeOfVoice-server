@@ -18,10 +18,6 @@ module.exports = {
         references: { model: 'boards', key: 'id' },
         onDelete: 'CASCADE',
       },
-      is_like: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

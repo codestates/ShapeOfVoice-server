@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       boardId: DataTypes.INTEGER,
-      is_like: DataTypes.BOOLEAN,
     },
     {
       sequelize,

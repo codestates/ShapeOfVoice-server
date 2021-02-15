@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -39,8 +39,6 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-
-// console.log(sequlize.models)를 이용해 model들을 볼 수 있다.
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

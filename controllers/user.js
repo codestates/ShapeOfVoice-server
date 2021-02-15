@@ -1,4 +1,4 @@
-const { user, board, voice, Sequelize } = require('../models').models;
+const { user, board, voice, user_board_like } = require('../models').models;
 
 module.exports = {
   signup: {
@@ -79,7 +79,12 @@ module.exports = {
           } else {
             const { id, nickname } = result.dataValues;
             req.session.userId = id;
-            res.status(200).send({ id, nickname });
+            user_board_like
+              .findAll({ where: { userId: id } })
+              .then((result) => {
+                const boardId = result.map((el) => el.dataValues.boardId);
+                res.status(200).send({ id, nickname, boardId });
+              });
           }
         });
       } else {
@@ -137,7 +142,7 @@ module.exports = {
               include: [
                 {
                   model: board,
-                  attributes: ['id', 'title', 'createdAt'],
+                  attributes: ['id', 'title', 'like_count', 'createdAt'],
                   through: { attributes: [] },
                 },
               ],
@@ -171,6 +176,7 @@ module.exports = {
   },
 
   put: (req, res) => {
+    // user에 중복된 이름이 있는지 없는지 찾는다.
     user
       .findOne({
         where: { nickname: req.body.nickname },

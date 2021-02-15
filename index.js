@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const fs = require('fs');
 const http = require('http');
 const session = require('express-session');
 const cors = require('cors');
@@ -13,8 +12,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 24 * 6 * 60 * 10000,
-      secure: true,
-      SameSite: 'none'
+      secure: false,
+      SameSite: 'none',
     },
   })
 );

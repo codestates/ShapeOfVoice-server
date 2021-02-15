@@ -1,4 +1,5 @@
 'use strict';
+// voice_voard Model
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class voice_board extends Model {

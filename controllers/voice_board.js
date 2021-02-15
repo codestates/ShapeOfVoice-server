@@ -1,5 +1,7 @@
 const { voice_board } = require('../models');
 
+// voice_board controller
+
 module.exports = {
   post: function (req, res) {
     voice_board
