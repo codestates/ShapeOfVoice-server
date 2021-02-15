@@ -1,10 +1,5 @@
-const {
-  board,
-  user,
-  voice,
-  voice_board,
-  user_board_like,
-} = require('../models');
+const { board, user, voice, voice_board } = require('../models');
+
 
 module.exports = {
   post: function (req, res) {

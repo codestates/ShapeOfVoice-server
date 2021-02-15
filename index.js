@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const session = require('express-session');
@@ -6,7 +7,7 @@ const app = express();
 
 app.use(
   session({
-    secret: '!@#shapeofvoice#@!',
+    secret: process.env.SHAPE_OF_VOICE,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://shapeofvoice.click',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
   })
